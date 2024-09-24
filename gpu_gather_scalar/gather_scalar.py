@@ -10,7 +10,7 @@ def run():
     parser.add_argument("--index-size", type=int, default=4)
     parser.add_argument("--gpu-n", type=int, default=0)
     parser.add_argument("--test", action="store_true", default=False)
-    parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsight"])
+    parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
     parser.add_argument("--log-path", type=str, default="./logs")
     args = parser.parse_args()
     
@@ -51,11 +51,12 @@ def run():
             n_iter = 10
     
             vp.init_trace()
-        elif method == "nsight":
+        elif method == "nsys" or method =="ncomp":
             n_warmup = 3
             n_iter = 0
             
-            torch.cuda.cudart().cudaProfilerStart()
+            if method == "nsys":
+                torch.cuda.cudart().cudaProfilerStart()
                 
             input_size *= 1024
             index_size *= 1024
@@ -65,9 +66,9 @@ def run():
             assert input_tensor_cpu.dtype == torch.float
             input_tensor = input_tensor_cpu.to(device)
             
-            index_tensor_cpu = torch.randint(low=0, high=input_size, size=(index_size,), dtype=torch.int32)
+            index_tensor_cpu = torch.randint(low=0, high=input_size, size=(index_size,))
+            # index_tensor_cpu = torch.arange(0, input_size, dtype=torch.int64)
             print(index_tensor_cpu.dtype)
-            print(index_tensor_cpu.device)
             # assert index_tensor_cpu.dtype == torch.int32
             index_tensor = index_tensor_cpu.to(device)
             
@@ -77,12 +78,13 @@ def run():
                 
             output_tensor = input_tensor[index_tensor]
             # output_tensor = torch.gather(input_tensor, 0, index_tensor)
-                
+            output_tensor_cpu = output_tensor.to("cpu")
+            print(output_tensor_cpu.device)
             if i >= n_warmup:
                 if method == "time":
                     end = time.time()
                     final_time = final_time + end - start
-                    
+        
         if method == "time":
             final_time = final_time / n_iter * (10**6)
             
@@ -106,7 +108,7 @@ def run():
             
             print("number of inputs, number of indices, time (us)")
             print("%d, %d, %f" %(input_size, index_size, final_time))
-        elif method == "nsight":
+        elif method == "nsys":
             torch.cuda.cudart().cudaProfilerStop()
         
 if __name__ == "__main__":

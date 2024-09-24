@@ -1,1 +1,6 @@
 vTrain
+/gpu_gather_scalar/logs
+/gpu_gather_scalar/nsight_results
+/gpu_gather_vector/logs
+/gpu_gather_vector/nsight_results
+
