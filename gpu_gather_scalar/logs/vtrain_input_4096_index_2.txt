@@ -1,0 +1,2 @@
+number of inputs, number of indices, time (us)
+4096, 2, 3.417500
