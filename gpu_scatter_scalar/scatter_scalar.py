@@ -11,7 +11,6 @@ def run():
     parser.add_argument("--gpu-n", type=int, default=0)
     parser.add_argument("--test", action="store_true", default=False)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
-    parser.add_argument("--log-path", type=str, default="./logs")
     args = parser.parse_args()
     
     input_size = args.input_size
@@ -23,12 +22,13 @@ def run():
     device = torch.device("cuda:%d" %gpu_n)
     
     if test:
-        input_size = 6
-        index_size = 3
+        input_size = 3
+        index_size = 6
         
         input_tensor = torch.randn(input_size, device=device)
-        index_tensor = torch.randint(low=0, high=input_size, size=(index_size,), device=device, dtype=torch.int32)
-        output_tensor = input_tensor[index_tensor]
+        index_tensor = torch.randint(low=0, high=index_size, size=(input_size,), device=device, dtype=torch.int32)
+        output_tensor = torch.zeros(index_size, device=device, dtype=input_tensor.dtype)
+        output_tensor[index_tensor] = input_tensor
         
         print("input_tensor")
         print(input_tensor)

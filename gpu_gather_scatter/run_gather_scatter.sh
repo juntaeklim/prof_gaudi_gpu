@@ -7,10 +7,9 @@ end=$3       # Ending value
 stride=$4    # Stride value
 input_size=$5
 method=$6
-dim_size=$7
 
 # Check if required arguments are provided
-if [[ -z "$type" || -z "$start" || -z "$end" || -z "$stride" || -z "$input_size" || -z "$method" || -z "$dim_size" ]]; then
+if [[ -z "$type" || -z "$start" || -z "$end" || -z "$stride" || -z "$input_size" || -z "$method" ]]; then
     echo "Usage: $0 <type: linear|power> <start> <end> <stride> <dtype>"
     exit 1
 fi
@@ -38,7 +37,7 @@ echo "Generated values for index sizes: ${index_sizes[@]}"
 # Run the loop for M, K, N values
 for index_size in "${index_sizes[@]}"
 do
-    file_name="${method}_input_${input_size}_index_${index_size}_dim_${dim_size}.txt"
+    file_name="${method}_input_${input_size}_index_${index_size}.txt"
 	output_file="./logs/${file_name}"
     echo $output_file
 	if [ -f "$output_file" ]; then
@@ -46,6 +45,6 @@ do
         continue
     fi
 
-    echo $input_size, $index_size, $dim_size
-    python gather_vector.py --input-size ${input_size} --index-size ${index_size} --method ${method} --dim-size ${dim_size} > ${output_file}
+    echo $input_size, $index_size
+    python gather_scalar.py --input-size ${input_size} --index-size ${index_size} --method ${method} > ${output_file}
 done
