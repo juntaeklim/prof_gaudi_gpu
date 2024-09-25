@@ -1,0 +1,35 @@
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+result_0
+[8.928, 6.976, 7.008, 6.975, 6.912, 6.944, 6.944, 6.944, 7.008, 6.976, 6.944, 6.976, 6.944, 6.944, 6.56, 6.528, 6.592, 6.625, 6.56, 6.592, 6.56, 6.56, 6.528, 6.528, 6.56, 6.56, 6.656, 6.624, 6.528, 6.528]
+
+number of inputs, time (us)
+24576, 6.563200

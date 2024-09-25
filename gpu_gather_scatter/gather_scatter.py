@@ -11,7 +11,7 @@ def run():
     parser.add_argument("--gpu-n", type=int, default=0)
     parser.add_argument("--test", action="store_true", default=False)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
-    parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v"])
+    parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v", "gups"])
     args = parser.parse_args()
     
     input_size = args.input_size
@@ -57,6 +57,23 @@ def run():
                 output_tensor[index_tensor] = input_tensor
             
             output_tensor[index_tensor] = input_tensor
+        elif bench_list[0] == "gups":
+            input_size = 6
+            output_size = 3
+            
+            A = 1664525  
+            C = 12345
+            M = 2**32
+
+            index_tensor = torch.zeros(output_size, dtype=torch.int32, device=device)
+            seed = torch.randint(0, M, (1,), dtype=torch.uint32).item()
+            for i in range(output_size):
+                seed = (A * seed + C) % M
+                index_tensor[i] = seed % input_size
+                
+            input_tensor = torch.arange(input_size, dtype=torch.float, device=device)
+            
+            output_tensor = input_tensor[index_tensor]
         else:
             assert False
             
@@ -73,6 +90,7 @@ def run():
         print(output_tensor.dtype)
         print()
     else:
+        # Profiler #############################
         if method == "vtrain" or method == "time":
             n_warmup = 3
             n_iter = 4
@@ -89,12 +107,14 @@ def run():
                 torch.cuda.cudart().cudaProfilerStart()
         else:
             assert False
+        ########################################
 
         bench_list = bench.split("_")
         
         for i in range(n_warmup + n_iter):
             # Tensor preparation ###################
             if bench_list[0] == "gather":
+                assert input_size >= output_size
                 index_tensor_cpu = torch.randint(low=0, high=input_size, size=(output_size,), dtype=torch.int32)
                 if bench_list[1] == "s":
                     input_tensor_cpu = torch.arange(input_size, dtype=torch.float)
@@ -103,15 +123,28 @@ def run():
                 else:
                     assert False
             elif bench_list[0] == "scatter":
+                assert input_size <= output_size
                 index_tensor_cpu = torch.randint(low=0, high=output_size, size=(input_size,), dtype=torch.int32)
                 if bench_list[1] == "s":
-                    input_tensor_cpu = torch.randn(input_size)
+                    input_tensor_cpu = torch.arange(input_size, dtype=torch.float)
                     output_tensor_cpu = torch.zeros(output_size, dtype=input_tensor_cpu.dtype)
                 elif bench_list[1] == "v":
-                    input_tensor_cpu = torch.randn(input_size, dim_size)
+                    input_tensor_cpu = torch.arange(input_size * dim_size, dtype=torch.float).view(input_size, dim_size)
                     output_tensor_cpu = torch.zeros(output_size, dim_size, dtype=input_tensor_cpu.dtype)
                 else:
                     assert False
+            elif bench_list[0] == "gups":
+                A = 1664525  
+                C = 12345
+                M = 2**32
+
+                index_tensor_cpu = torch.zeros(output_size, dtype=torch.int32)
+                seed = torch.randint(0, M, (1,), dtype=torch.uint32).item()
+                for i in range(output_size):
+                    seed = (A * seed + C) % M
+                    index_tensor_cpu[i] = seed % input_size
+                    
+                input_tensor_cpu = torch.arange(input_size, dtype=torch.float)
             else:
                 assert False
                 
@@ -128,7 +161,7 @@ def run():
             ########################################
             
             ## Kernel execution ####################
-            if bench_list[0] == "gather":
+            if bench_list[0] == "gather" or bench_list[0] == "gups":
                 output_tensor = input_tensor[index_tensor]
             elif bench_list[0] == "scatter":
                 output_tensor[index_tensor] = input_tensor

@@ -1,0 +1,34 @@
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+result
+[25.510787963867188, 22.649765014648438, 22.411346435546875, 25.74920654296875, 32.18650817871094, 20.503997802734375, 20.742416381835938, 20.503997802734375, 20.02716064453125, 19.788742065429688]
+number of inputs, time (us)
+98304, 23.007393
