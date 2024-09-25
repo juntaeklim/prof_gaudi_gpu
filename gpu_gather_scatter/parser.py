@@ -10,7 +10,8 @@ def run():
     parser.add_argument("--end", type=int)
     parser.add_argument("--stride", type=int)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
-    parser.add_argument("--input-size", type=int, default=4096)
+    parser.add_argument("--fixed-size", type=int, default=4096)
+    parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v"])
     args = parser.parse_args()
 
     pattern = args.type
@@ -18,7 +19,9 @@ def run():
     end = args.end
     stride = args.stride
     method = args.method
-    input_size = args.input_size
+    fixed_size = args.fixed_size
+    bench = args.bench
+    bench_list = bench.split("_")
     
     if pattern == "linear":
         assert (end - start) % stride == 0
@@ -39,19 +42,29 @@ def run():
         print(f"The directory {log_path} was not found.")
         return
 
-    index_sizes = values
+    variables = values
 
-    print("Result of (input_size) = (%d) for %s" %(input_size, method))
-    print()
-    if method == "vtrain":
-        print("number of inputs, number of indices, time_1st_kernel (us), time_interval (us), time_2nd_kernel (us)")
-    elif method == "time":
-        print("number of inputs, number of indices, time (us)")
+    if bench_list[1] == "s":
+        print("Result of (fixed_size) = (%d) for %s" %(fixed_size, method))
+    elif bench_list[1] == "v":
+        print("Result of (fixed_size, dim) = (%d, 64) for %s" %(fixed_size, method))
     else:
         assert False
         
-    for index_size in index_sizes:
-        file_name = "%s/%s_input_%d_index_%d.txt" %(log_path, method, input_size, index_size)
+    print()
+    if method == "vtrain":
+        print("number of inputs, number of outputs, time_1st_kernel (us), time_interval (us), time_2nd_kernel (us)")
+    elif method == "time":
+        print("number of inputs, number of outputs, time (us)")
+    else:
+        assert False
+        
+    for variable in variables:
+        if bench_list[0] == "gather":
+            file_name = "%s/%s_%s_input_%d_output_%d.txt" %(log_path, bench, method, fixed_size, variable)
+        elif bench_list[0] == "scatter":
+            file_name = "%s/%s_%s_input_%d_output_%d.txt" %(log_path, bench, method, variable, fixed_size)
+            
 
         with open(file_name, "r") as f:
             results = f.readlines()[-1].split(",")

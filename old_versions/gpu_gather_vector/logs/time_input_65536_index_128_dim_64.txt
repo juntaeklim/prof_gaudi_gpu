@@ -1,0 +1,34 @@
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+cpu
+result
+[406.50367736816406, 494.0032958984375, 492.5727844238281, 496.3874816894531, 500.4405975341797, 499.2485046386719, 497.1027374267578, 494.4801330566406, 503.77845764160156, 501.1558532714844]
+number of inputs, number of indices, time (us)
+65536, 128, 488.567322

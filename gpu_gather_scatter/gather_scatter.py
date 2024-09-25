@@ -12,7 +12,6 @@ def run():
     parser.add_argument("--test", action="store_true", default=False)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
     parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v"])
-    parser.add_argument("--dim-size", type=int, default=64)
     args = parser.parse_args()
     
     input_size = args.input_size
@@ -21,7 +20,7 @@ def run():
     test = args.test
     method = args.method
     bench = args.bench
-    dim_size = args.dim_size
+    dim_size = 64
     
     device = torch.device("cuda:%d" %gpu_n)
     
@@ -107,8 +106,10 @@ def run():
                 index_tensor_cpu = torch.randint(low=0, high=output_size, size=(input_size,), dtype=torch.int32)
                 if bench_list[1] == "s":
                     input_tensor_cpu = torch.randn(input_size)
+                    output_tensor_cpu = torch.zeros(output_size, dtype=input_tensor_cpu.dtype)
                 elif bench_list[1] == "v":
                     input_tensor_cpu = torch.randn(input_size, dim_size)
+                    output_tensor_cpu = torch.zeros(output_size, dim_size, dtype=input_tensor_cpu.dtype)
                 else:
                     assert False
             else:
@@ -116,6 +117,8 @@ def run():
                 
             input_tensor = input_tensor_cpu.to(device)
             index_tensor = index_tensor_cpu.to(device)
+            if bench_list[0] == "scatter":
+                output_tensor = output_tensor_cpu.to(device)
             ########################################
             
             # Profiler #############################
@@ -143,7 +146,7 @@ def run():
             output_tensor_cpu = output_tensor.to("cpu")
             print(output_tensor_cpu.device)
             
-            
+        # Profiler #############################
         if method == "time":
             assert len(result) == n_iter
             print("result")
@@ -196,6 +199,6 @@ def run():
             print("%d, %d, %f, %f, %f" %(input_size, output_size, final_time_0, final_time_1, final_time_2))
         elif method == "nsys":
             torch.cuda.cudart().cudaProfilerStop()
-        
+        ########################################
 if __name__ == "__main__":
     run()
