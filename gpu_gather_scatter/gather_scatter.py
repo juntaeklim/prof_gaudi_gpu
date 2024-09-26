@@ -219,8 +219,8 @@ def run():
                 assert len(start_times) == 5 * (n_warmup + n_iter)
                 assert len(durations) == 5 * (n_warmup + n_iter)
             else:
-                assert len(start_times) == 5 * (n_warmup + n_iter)
-                assert len(durations) == 5 * (n_warmup + n_iter)
+                assert len(start_times) == 2 * (n_warmup + n_iter)
+                assert len(durations) == 2 * (n_warmup + n_iter)
             
             result_0 = []            
             result_1 = []
