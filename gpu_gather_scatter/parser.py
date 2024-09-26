@@ -11,7 +11,7 @@ def run():
     parser.add_argument("--stride", type=int)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
     parser.add_argument("--fixed-size", type=int, default=4096)
-    parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v"])
+    parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v", "gups_gather", "gups_update"])
     args = parser.parse_args()
 
     pattern = args.type
@@ -44,7 +44,7 @@ def run():
 
     variables = values
 
-    if bench_list[1] == "s":
+    if bench_list[1] == "s" or bench_list[0] == "gups":
         print("Result of (fixed_size) = (%d) for %s" %(fixed_size, method))
     elif bench_list[1] == "v":
         print("Result of (fixed_size, dim) = (%d, 64) for %s" %(fixed_size, method))
@@ -53,7 +53,10 @@ def run():
         
     print()
     if method == "vtrain":
-        print("number of inputs, number of outputs, time_1st_kernel (us), time_interval (us), time_2nd_kernel (us)")
+        if bench == "gups_update":
+            print("number of inputs, number of indices, kernel_0 (us), interval_0 (us), kernel_1 (us), interval_1 (us), kernel_2 (us), interval_2 (us), kernel_3 (us), interval_3 (us), kernel_4 (us)")
+        else:
+            print("number of inputs, number of outputs, time_1st_kernel (us), time_interval (us), time_2nd_kernel (us)")
     elif method == "time":
         print("number of inputs, number of outputs, time (us)")
     else:
@@ -64,13 +67,18 @@ def run():
             file_name = "%s/%s_%s_input_%d_output_%d.txt" %(log_path, bench, method, fixed_size, variable)
         elif bench_list[0] == "scatter":
             file_name = "%s/%s_%s_input_%d_output_%d.txt" %(log_path, bench, method, variable, fixed_size)
-            
+        elif bench_list[0] == "gups":
+            file_name = "%s/%s_%s_input_%d_index_%d.txt" %(log_path, bench, method, fixed_size, variable)
 
         with open(file_name, "r") as f:
             results = f.readlines()[-1].split(",")
             if method == "vtrain":
-                assert len(results) == 5
-                print("%d, %d, %f, %f, %f" %(int(results[0]), int(results[1]), float(results[2]), float(results[3]), float(results[4])))
+                if bench == "gups_update":
+                    assert len(results) == 11
+                    print("%d, %d, %f, %f, %f, %f, %f, %f, %f, %f, %f" %(int(results[0]), int(results[1]), float(results[2]), float(results[3]), float(results[4]), float(results[5]), float(results[6]), float(results[7]), float(results[8]), float(results[9]), float(results[10])))
+                else:
+                    assert len(results) == 5
+                    print("%d, %d, %f, %f, %f" %(int(results[0]), int(results[1]), float(results[2]), float(results[3]), float(results[4])))
             elif method == "time":
                 assert len(results) == 3
                 print("%d, %d, %f" %(int(results[0]), int(results[1]), float(results[2])))
