@@ -1,6 +1,3 @@
-vTrain
-/gpu_gather_scalar/logs
-/gpu_gather_scalar/nsight_results
-/gpu_gather_vector/logs
-/gpu_gather_vector/nsight_results
-
+/gpu_stream/logs
+/gpu_gather_scatter/logs
+/gpu_gather_scatter/index_tensors
