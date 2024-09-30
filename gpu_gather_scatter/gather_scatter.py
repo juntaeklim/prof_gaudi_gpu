@@ -8,19 +8,25 @@ def run():
  
     parser.add_argument("--input-size", type=int, default=128)
     parser.add_argument("--output-size", type=int, default=4)
+    parser.add_argument("--dim-size", type=int, default=64)
     parser.add_argument("--gpu-n", type=int, default=0)
     parser.add_argument("--test", action="store_true", default=False)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
     parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v", "gups_gather", "gups_update"])
+    parser.add_argument("--using-prepared-indices", action="store_true", default=False)
+    parser.add_argument("--algo", type=str, choices=["randint"])
+    
     args = parser.parse_args()
     
     input_size = args.input_size
     output_size = args.output_size
+    dim_size = args.dim_size
     gpu_n = args.gpu_n
     test = args.test
     method = args.method
     bench = args.bench
-    dim_size = 64
+    using_prepared_indices = args.using_prepared_indices
+    algo = args.algo
     
     device = torch.device("cuda:%d" %gpu_n)
     bench_list = bench.split("_")
@@ -42,7 +48,7 @@ def run():
     else:
         # Profiler #############################
         if method == "vtrain" or method == "time":
-            n_warmup = 10
+            n_warmup = 15
             n_iter = 5
             
             if method == "vtrain":
@@ -64,7 +70,8 @@ def run():
         # Tensor preparation ###################
         if bench_list[0] == "gather":
             assert input_size >= output_size
-            index_tensor_cpu = torch.randint(low=0, high=input_size, size=(output_size,), dtype=torch.int32)
+            if not using_prepared_indices:
+                index_tensor_cpu = torch.randint(low=0, high=input_size, size=(output_size,), dtype=torch.int32)
             if bench_list[1] == "s":
                 input_tensor_cpu = torch.arange(input_size, dtype=torch.float)
             elif bench_list[1] == "v":
@@ -73,7 +80,8 @@ def run():
                 assert False
         elif bench_list[0] == "scatter":
             assert input_size <= output_size
-            index_tensor_cpu = torch.randint(low=0, high=output_size, size=(input_size,), dtype=torch.int32)
+            if not using_prepared_indices:
+                index_tensor_cpu = torch.randint(low=0, high=output_size, size=(input_size,), dtype=torch.int32)
             if bench_list[1] == "s":
                 input_tensor_cpu = torch.arange(input_size, dtype=torch.float)
                 output_tensor_cpu = torch.zeros(output_size, dtype=input_tensor_cpu.dtype)
@@ -87,11 +95,12 @@ def run():
             C = 12345
             M = 2**32
 
-            index_tensor_cpu = torch.zeros(output_size, dtype=torch.int32)
-            seed = torch.randint(0, M, (1,), dtype=torch.uint32).item()
-            for i in range(output_size):
-                seed = (A * seed + C) % M
-                index_tensor_cpu[i] = seed % input_size
+            if not using_prepared_indices:
+                index_tensor_cpu = torch.zeros(output_size, dtype=torch.int32)
+                seed = torch.randint(0, M, (1,), dtype=torch.uint32).item()
+                for i in range(output_size):
+                    seed = (A * seed + C) % M
+                    index_tensor_cpu[i] = seed % input_size
             if bench_list[1] == "gather":
                 input_tensor_cpu = torch.arange(input_size, dtype=torch.float32)
             elif bench_list[1] == "update":
@@ -100,7 +109,16 @@ def run():
                 assert False
         else:
             assert False
-            
+        
+        if using_prepared_indices:
+            if bench in ["gather_s", "gather_v", "gups_gather", "gups_update"]:
+                index_tensor_cpu = torch.load("./index_tensors/%s_entire_%d_index_%d_iter_%d" %(algo, input_size, output_size, i), weights_only=True)
+            elif bench in ["scatter_s", "scatter_v"]:
+                index_tensor_cpu = torch.load("./index_tensors/%s_entire_%d_index_%d_iter_%d" %(algo, output_size, input_size, i), weights_only=True)
+            else:
+                assert False
+            assert index_tensor_cpu.device == torch.device("cpu")
+
         input_tensor = input_tensor_cpu.to(device)
         index_tensor = index_tensor_cpu.to(device)
         if bench_list[0] == "scatter":
