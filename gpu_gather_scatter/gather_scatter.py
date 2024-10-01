@@ -2,6 +2,8 @@ import torch
 import argparse
 import time
 import vtrain_profiler as vp
+from custom_gather import gather_v_i32_indices
+from custom_scatter import scatter_v_i32_indices
 
 def run():
     parser = argparse.ArgumentParser(description="Gather GPU test")
@@ -15,7 +17,7 @@ def run():
     parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v", "gups_gather", "gups_update"])
     parser.add_argument("--using-prepared-indices", action="store_true", default=False)
     parser.add_argument("--algo", type=str, choices=["randint"])
-    
+    parser.add_argument("--custom", action="store_true", default=False)
     args = parser.parse_args()
     
     input_size = args.input_size
@@ -27,6 +29,7 @@ def run():
     bench = args.bench
     using_prepared_indices = args.using_prepared_indices
     algo = args.algo
+    custom = args.custom
     
     device = torch.device("cuda:%d" %gpu_n)
     bench_list = bench.split("_")
@@ -56,7 +59,7 @@ def run():
             else:
                 result = []
         elif method == "nsys" or method =="ncomp":
-            n_warmup = 3
+            n_warmup = 2
             n_iter = 0
             
             if method == "nsys":
@@ -133,9 +136,15 @@ def run():
         
         ## Kernel execution ####################
         if bench_list[0] == "gather":
-            output_tensor = input_tensor[index_tensor]
+            if custom:
+                output_tensor = gather_v_i32_indices(input_tensor, index_tensor)
+            else:
+                output_tensor = input_tensor[index_tensor]
         elif bench_list[0] == "scatter":
-            output_tensor[index_tensor] = input_tensor
+            if custom:
+                output_tensor = scatter_v_i32_indices(input_tensor, index_tensor, output_tensor)
+            else:
+                output_tensor[index_tensor] = input_tensor
         elif bench_list[0] == "gups":
             if bench_list[1] == "gather":
                 output_tensor = input_tensor[index_tensor]
@@ -197,26 +206,34 @@ def run():
                 start_times.append(float(splitted_row[0]) / 1000)
                 durations.append(float(splitted_row[1]) / 1000)
         
-        if bench == "gups_update":
+        if custom:
+            assert len(start_times) == n_warmup + n_iter
+            assert len(durations) == n_warmup + n_iter
+        elif bench == "gups_update":
             assert len(start_times) == 5 * (n_warmup + n_iter)
             assert len(durations) == 5 * (n_warmup + n_iter)
         else:
             assert len(start_times) == 2 * (n_warmup + n_iter)
             assert len(durations) == 2 * (n_warmup + n_iter)
         
-        result_0 = []            
-        result_1 = []
-        result_2 = []
-        if bench == "gups_update":
+        result_0 = []
+        
+        if not custom:
+            result_1 = []
+            result_2 = []
+            
+        if not custom and bench == "gups_update":
             result_3 = []
             result_4 = []
             result_5 = []
             result_6 = []
             result_7 = []
             result_8 = []
-        
+            
         for i in range(n_warmup + n_iter):
-            if bench == "gups_update":
+            result_0.append(durations[i])
+            
+            if not custom and bench != "gups_update":
                 result_0.append(durations[5*i])
                 result_1.append(start_times[5*i + 1] - start_times[5*i] - durations[5*i])
                 result_2.append(durations[5*i + 1])
@@ -226,18 +243,21 @@ def run():
                 result_6.append(durations[5*i + 3])
                 result_7.append(start_times[5*i + 4] - start_times[5*i + 3] - durations[5*i + 3])
                 result_8.append(durations[5*i + 4])
-            else:
+                
+            if not custom and bench == "gups_update":
                 result_0.append(durations[2*i])
                 result_1.append(start_times[2*i + 1] - start_times[2*i] - durations[2*i])
                 result_2.append(durations[2*i + 1])
         
         print("result_0")
         print(result_0)
-        print("result_1")
-        print(result_1)
-        print("result_2")
-        print(result_2)
-        if bench == "gups_update":
+        if not custom:
+            print("result_1")
+            print(result_1)
+            print("result_2")
+            print(result_2)
+            
+        if not custom and bench == "gups_update":
             print("result_3")
             print(result_3)
             print("result_4")
@@ -250,11 +270,14 @@ def run():
             print(result_7)
             print("result_8")
             print(result_8)
-            
+        
         result_0_tensor = torch.tensor(result_0)
-        result_1_tensor = torch.tensor(result_1)
-        result_2_tensor = torch.tensor(result_2)
-        if bench == "gups_update":
+        
+        if not custom:
+            result_1_tensor = torch.tensor(result_1)
+            result_2_tensor = torch.tensor(result_2)
+        
+        if not custom and bench == "gups_update":
             result_3_tensor = torch.tensor(result_3)
             result_4_tensor = torch.tensor(result_4)
             result_5_tensor = torch.tensor(result_5)
@@ -263,9 +286,12 @@ def run():
             result_8_tensor = torch.tensor(result_8)
             
         final_time_0 = result_0_tensor[-n_iter:].mean()
-        final_time_1 = result_1_tensor[-n_iter:].mean()
-        final_time_2 = result_2_tensor[-n_iter:].mean()
-        if bench == "gups_update":
+
+        if not custom:
+            final_time_1 = result_1_tensor[-n_iter:].mean()
+            final_time_2 = result_2_tensor[-n_iter:].mean()
+        
+        if not custom and  bench == "gups_update":
             final_time_3 = result_3_tensor[-n_iter:].mean()
             final_time_4 = result_4_tensor[-n_iter:].mean()
             final_time_5 = result_5_tensor[-n_iter:].mean()
@@ -273,7 +299,10 @@ def run():
             final_time_7 = result_7_tensor[-n_iter:].mean()
             final_time_8 = result_8_tensor[-n_iter:].mean()
         print()
-        if bench == "gups_update":
+        if custom:
+            print("number of inputs, number of indices, kernel_duration (us)")
+            print("%d, %d, %f" %(input_size, output_size, final_time_0)) 
+        elif bench == "gups_update":
             print("number of inputs, number of indices, kernel_0 (us), interval_0 (us), kernel_1 (us), interval_1 (us), kernel_2 (us), interval_2 (us), kernel_3 (us), interval_3 (us), kernel_4 (us), interval_4 (us), kernel_5 (us)")
             print("%d, %d, %f, %f, %f, %f, %f, %f, %f, %f, %f" %(input_size, output_size, final_time_0, final_time_1, final_time_2, final_time_3, final_time_4, final_time_5, final_time_6, final_time_7, final_time_8))
         else:

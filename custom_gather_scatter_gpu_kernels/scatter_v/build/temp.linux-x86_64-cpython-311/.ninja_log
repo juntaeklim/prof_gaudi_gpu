@@ -1,0 +1,13 @@
+# ninja log v5
+0	15845	1727699664363374198	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices.o	cea3bf4f8196e53c
+12	56574	1727699799294805820	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	ee2e3664a6add79b
+21	15754	1727701781443014809	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices.o	30f6662446255c48
+22	56378	1727701822038833433	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+19	57463	1727703046837733715	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+19	56291	1727703129785287864	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+14	59105	1727704018948451095	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+19	59010	1727747425408301370	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+14	56322	1727747810657587221	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+13	57013	1727748010133832009	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+21	59606	1727748243785907364	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62
+21	56828	1727748445569851082	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/scatter_v/build/temp.linux-x86_64-cpython-311/scatter_v_i32_indices_cuda_kernel.o	91532f2f49caef62

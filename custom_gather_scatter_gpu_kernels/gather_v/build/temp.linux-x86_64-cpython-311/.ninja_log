@@ -1,0 +1,22 @@
+# ninja log v5
+0	15713	1727674047055301326	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices.o	deb5b3fef288fe6e
+18	15801	1727674262335041460	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices.o	deb5b3fef288fe6e
+18	56824	1727675905782443315	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	2d4f71290d3a23e1
+20	56922	1727676193763886432	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	2d4f71290d3a23e1
+19	15723	1727676355714679121	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices.o	496b73c2c52f155f
+19	56639	1727676396610393069	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56457	1727679075170985534	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+21	60106	1727679853667363197	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56682	1727680349672598047	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+14	60076	1727680655564732390	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56613	1727681105952548196	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+21	58361	1727682024308727732	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+20	56584	1727682446858350276	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56908	1727683559118685015	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+14	56910	1727683698398528573	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+21	58218	1727684160757718554	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+14	56562	1727684425849138011	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56602	1727685073827570211	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+13	56564	1727687355232996677	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	56637	1727687595073962819	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28
+19	58746	1727696134664905310	/home/juntaek/prof_gaudi_gpu/custom_gather_scatter_gpu_kernels/gather_v/build/temp.linux-x86_64-cpython-311/gather_v_i32_indices_cuda_kernel.o	ec532264b7c83b28

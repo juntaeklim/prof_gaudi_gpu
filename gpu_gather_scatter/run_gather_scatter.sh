@@ -55,9 +55,9 @@ do
 
     if [[ "$bench" == "gups_update" || "$bench" == "gups_gather" || "$bench" == "gather_s" || "$bench" == "gather_v" ]]; then
         echo "input_size: $fixed_size, output_size: $variable"
-        python gather_scatter.py --input-size ${fixed_size} --output-size ${variable} --dim-size ${dim_size} --method ${method} --bench ${bench} --using-prepared-indices --algo randint > ${output_file}
+        python gather_scatter.py --input-size ${fixed_size} --output-size ${variable} --dim-size ${dim_size} --method ${method} --bench ${bench} --using-prepared-indices --algo randint --custom > ${output_file}
     elif [[ "$bench" == "scatter_s" || "$bench" == "scatter_v" ]]; then
         echo "input_size: $variable, output_size: $fixed_size"
-        python gather_scatter.py --input-size ${variable} --output-size ${fixed_size} --dim-size ${dim_size} --method ${method} --bench ${bench} --using-prepared-indices --algo randint > ${output_file}
+        python gather_scatter.py --input-size ${variable} --output-size ${fixed_size} --dim-size ${dim_size} --method ${method} --bench ${bench} --using-prepared-indices --algo randint --custom > ${output_file}
     fi
 done

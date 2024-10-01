@@ -13,6 +13,7 @@ def run():
     parser.add_argument("--fixed-size", type=int, default=4096)
     parser.add_argument("--bench", type=str, choices=["gather_s", "gather_v", "scatter_s", "scatter_v", "gups_gather", "gups_update"])
     parser.add_argument("--dim-size", type=int, default=64)
+    parser.add_argument("--custom", action="store_true", default=False)
     args = parser.parse_args()
 
     pattern = args.type
@@ -24,6 +25,7 @@ def run():
     bench = args.bench
     bench_list = bench.split("_")
     dim_size = args.dim_size
+    custom = args.custom
     
     if pattern == "linear":
         assert (end - start) % stride == 0
@@ -75,7 +77,10 @@ def run():
         with open(file_name, "r") as f:
             results = f.readlines()[-1].split(",")
             if method == "vtrain":
-                if bench == "gups_update":
+                if custom:
+                    assert len(results) == 3
+                    print("%d, %d, %f" %(int(results[0]), int(results[1]), float(results[2])))
+                elif bench == "gups_update":
                     assert len(results) == 11
                     print("%d, %d, %f, %f, %f, %f, %f, %f, %f, %f, %f" %(int(results[0]), int(results[1]), float(results[2]), float(results[3]), float(results[4]), float(results[5]), float(results[6]), float(results[7]), float(results[8]), float(results[9]), float(results[10])))
                 else:
