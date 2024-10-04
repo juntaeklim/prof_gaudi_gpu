@@ -48,6 +48,8 @@ def run():
             n_iter = 5
             
             if method == "vtrain":
+                start_times = []
+                durations = []  
                 vp.init_trace()
             else:
                 result = []
@@ -86,6 +88,18 @@ def run():
             torch.cuda.synchronize(device=device)
             end = time.time()
             result.append((end - start) * (10**6)) # sec -> usec
+        elif not test and method == "vtrain" and i % 10 == 9:
+            torch.cuda.synchronize(device=device)
+            tmp = vp.finish_trace()
+            if tmp:
+                trace = tmp.strip().split('\n')
+                for j in range(len(trace)):
+                    row = trace[j]
+                    splitted_row = row.split(",")
+                    if splitted_row[2] == "KERNEL":
+                        start_times.append(float(splitted_row[0]) / 1000)
+                        durations.append(float(splitted_row[1]) / 1000)
+            vp.init_trace()
         ########################################
         
         if test:
@@ -114,9 +128,8 @@ def run():
         final_time = result_tensor.mean()
         print("%d, %d, %d, %f" %(M, K, N, final_time))
     elif not test and method == "vtrain":
+        torch.cuda.synchronize(device=device)
         trace = vp.finish_trace().strip().split('\n')
-        start_times = []
-        durations = []
         for i in range(len(trace)):
             row = trace[i]
             splitted_row = row.split(",")
