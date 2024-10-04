@@ -10,7 +10,7 @@ def run():
     parser.add_argument("--end", type=int)
     parser.add_argument("--stride", type=int)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
-    parser.add_argument("--dtype", type=str, choices=["fp16", "fp32", "bf16"])
+    parser.add_argument("--dtype", type=str, choices=["fp16", "fp32", "bf16", "tf32"])
     args = parser.parse_args()
 
     pattern = args.type

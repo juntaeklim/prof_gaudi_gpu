@@ -14,7 +14,7 @@ def run():
     parser.add_argument("--gpu-n", type=int, default=0)
     parser.add_argument("--test", action="store_true", default=False)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
-    parser.add_argument("--dtype", type=str, choices=["bf16", "fp16", "fp32"])
+    parser.add_argument("--dtype", type=str, choices=["bf16", "fp16", "fp32", "tf32"])
     args = parser.parse_args()
     
     M = args.M
@@ -28,6 +28,10 @@ def run():
     elif args.dtype == "fp16":
         dtype = torch.float16
     elif args.dtype == "fp32":
+        dtype = torch.float32
+    elif args.dtype == "tf32":
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
         dtype = torch.float32
     else:
         assert False
