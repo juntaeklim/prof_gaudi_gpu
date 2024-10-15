@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # 모델 리스트
-models=("facebook/opt-125m" "facebook/opt-1.3b")
-# models=("facebook/opt-125m" "facebook/opt-1.3b" "facebook/opt-6.7b")
+models=("facebook/opt-125m" "facebook/opt-1.3b" "facebook/opt-6.7b")
 
 # 고정된 input/output 길이
 I=20
