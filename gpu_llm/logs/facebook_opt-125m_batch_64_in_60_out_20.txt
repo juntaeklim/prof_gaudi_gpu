@@ -1,0 +1,9 @@
+Batch size: 64, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research
+
+Input length: 60 / output length: 80
+
+Iteration times
+[0.688194424030371, 0.18428110500099137, 0.19003627100028098, 0.1860455970163457, 0.1856966789928265, 0.2867738089989871, 0.1885400670580566, 0.18856664700433612]
+
+Latency (msec), Throughput (token/sec)
+207.124560, 6179.856223

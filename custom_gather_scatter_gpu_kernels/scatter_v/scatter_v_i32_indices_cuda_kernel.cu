@@ -252,7 +252,7 @@ torch::Tensor scatter_v_i32_indices_cuda(torch::Tensor inputs, torch::Tensor ind
   // cudaDeviceSetLimit(cudaLimitMaxL2FetchGranularity, 32);
 
   const int threads = 128;
-  const int blocks = (num_indices * embedding_dim + threads - 1) / threads / 4;
+  const int blocks = (num_indices * embedding_dim + threads/4 - 1) / threads/4;
   AT_DISPATCH_FLOATING_TYPES(inputs.scalar_type(), "scatter_v_i32_indices_cuda", ([&] {
     scatter_v_i32_indices_cuda_kernel_unroll4<scalar_t><<<blocks, threads>>>(
         inputs.data_ptr<scalar_t>(),

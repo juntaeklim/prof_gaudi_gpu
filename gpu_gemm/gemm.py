@@ -25,11 +25,15 @@ def run():
     method = args.method
     if args.dtype == "bf16":
         dtype = torch.bfloat16
+        max_flops = 312
     elif args.dtype == "fp16":
         dtype = torch.float16
+        max_flops = 312
     elif args.dtype == "fp32":
         dtype = torch.float32
+        max_flops = 19.5
     elif args.dtype == "tf32":
+        max_flops = 156
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.allow_tf32 = True
         dtype = torch.float32
@@ -54,6 +58,7 @@ def run():
             if method == "vtrain":
                 start_times = []
                 durations = []  
+                kernel_names = []
                 vp.init_trace()
             else:
                 result = []
@@ -103,6 +108,7 @@ def run():
                     if splitted_row[2] == "KERNEL":
                         start_times.append(float(splitted_row[0]) / 1000)
                         durations.append(float(splitted_row[1]) / 1000)
+                        kernel_names.append(splitted_row[3])
             vp.init_trace()
         ########################################
         
@@ -128,8 +134,10 @@ def run():
         print(result)
         result_tensor = torch.tensor(result)
         
-        print("M, K, N, time (us)")
         final_time = result_tensor.mean()
+        tflops = 2*M*K*N/final_time/(10**6)
+        print("Performance: %f FLOPS, %f %%" %(tflops, tflops/max_flops*100))
+        print("M, K, N, time (us)")
         print("%d, %d, %d, %f" %(M, K, N, final_time))
     elif not test and method == "vtrain":
         torch.cuda.synchronize(device=device)
@@ -157,6 +165,8 @@ def run():
         final_time_0 = result_0_tensor[-n_iter:].mean()
 
         print()
+        tflops = 2*M*K*N/final_time_0/(10**6)
+        print("Performance: %f FLOPS, %f %%" %(tflops, tflops/max_flops*100))
         print("M, K, N, kernel_duration (us)")
         print("%d, %d, %d, %f" %(M, K, N, final_time_0)) 
     elif not test and method == "nsys":

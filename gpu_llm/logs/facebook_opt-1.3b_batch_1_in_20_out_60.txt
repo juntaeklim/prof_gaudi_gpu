@@ -1,0 +1,9 @@
+Batch size: 1, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+
+Input length: 20 / output length: 80
+
+Iteration times
+[1.2419722150079906, 0.6660896289977245, 0.6198891460080631, 0.6359685870120302, 0.6497961310087703, 0.6154246589867398, 0.6159396250150166, 0.6140807030024007]
+
+Latency (msec), Throughput (token/sec)
+626.241941, 95.809616

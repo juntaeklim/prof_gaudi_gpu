@@ -1,0 +1,53 @@
+Batch size: 1024, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+Traceback (most recent call last):
+  File "/home/juntaek/prof_gaudi_gpu/gpu_llm/run_opt.py", line 124, in <module>
+    run()
+  File "/home/juntaek/prof_gaudi_gpu/gpu_llm/run_opt.py", line 74, in run
+    output_tokens = model.generate(
+                    ^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/generation/utils.py", line 2207, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/generation/utils.py", line 3172, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 1176, in forward
+    outputs = self.model.decoder(
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 933, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 530, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+                                                          ^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/models/opt/modeling_opt.py", line 425, in forward
+    key_states = torch.cat([past_key_value[0], key_states], dim=2)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 336.00 MiB. GPU 0 has a total capacity of 39.50 GiB of which 153.38 MiB is free. Including non-PyTorch memory, this process has 39.34 GiB memory in use. Of the allocated memory 34.31 GiB is allocated by PyTorch, and 4.54 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

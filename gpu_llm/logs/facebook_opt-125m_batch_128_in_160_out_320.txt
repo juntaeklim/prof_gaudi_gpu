@@ -1,0 +1,9 @@
+Batch size: 128, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript
+
+Input length: 160 / output length: 480
+
+Iteration times
+[6.244393458007835, 5.775356003025081, 5.776578060002066, 5.761735184991267, 5.770628280995879, 5.766674195008818, 5.767494306026492, 5.896211838989984]
+
+Latency (msec), Throughput (token/sec)
+5792.548761, 7071.153250
