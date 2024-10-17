@@ -1,0 +1,50 @@
+Batch size: 4, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups in the world.
+
+The following is a list of the top 10 research groups
+
+Input length: 160 / output length: 480
+
+Iteration times
+[2.357197111006826, 2.1100917310104705, 2.1218044119887054, 2.155179927009158, 2.113527735986281, 2.1100608209962957, 2.108781679009553, 2.107932793966029]
+
+Latency (msec), Throughput (token/sec)
+2119.096591, 604.030984

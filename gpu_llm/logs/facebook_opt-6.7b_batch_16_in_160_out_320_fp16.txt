@@ -1,0 +1,56 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  7.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  8.09it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.90it/s]
+Batch size: 16, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript.
+
+I am looking for a student to work on a project with me. The project is to design a new type of computer architecture that is programmable, robust, reliable, secure, and energy-efficient. The project is to be done in collaboration with the VIA research group.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+The project will be done in the summer of 2018.
+
+
+Input length: 160 / output length: 480
+
+Iteration times
+[9.451877310988493, 8.36053319601342, 8.37568023300264, 8.379722956975456, 8.378153460973408, 8.38265828898875, 8.394290899042971, 8.388409535051323]
+
+Latency (msec), Throughput (token/sec)
+8384.647028, 610.639897

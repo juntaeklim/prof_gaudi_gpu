@@ -29,14 +29,17 @@ def main():
     parser.add_argument("--model", type=str, required=True, help="Model name (e.g., 'facebook/opt-1.3b')")
     parser.add_argument("--input-length", type=int, required=True, help="Input length (I)")
     parser.add_argument("--output-length", type=int, required=True, help="Output length (O)")
+    parser.add_argument("--dtype", choices=["fp16", "fp32", "bf16"])
+    
     args = parser.parse_args()
 
     # Model name conversion (replace '/' with '_')
     model_name = args.model.replace("/", "_")
     input_length = args.input_length
     output_length = args.output_length
-
-    print(f"Used model: {args.model} / Input length: {input_length} / Output length: {output_length}")
+    dtype = args.dtype
+    
+    print(f"Used model: {args.model} / Input length: {input_length} / Output length: {output_length} / Data type: {dtype}")
     print("\n(Unit of latency = msec)")
     print("(Unit of throughput = token/sec)")
     print("\nbatch size, Latency, Throughput")
@@ -44,7 +47,11 @@ def main():
     # Check batch sizes (1, 2, 4, 8, ...)
     batch_size = 1
     while batch_size <= 1024:
-        log_filename = f"./logs/{model_name}_batch_{batch_size}_in_{input_length}_out_{output_length}.txt"
+        if dtype == "fp32":
+            log_filename = f"./logs/{model_name}_batch_{batch_size}_in_{input_length}_out_{output_length}.txt"
+        else:
+            log_filename = f"./logs/{model_name}_batch_{batch_size}_in_{input_length}_out_{output_length}_{dtype}.txt"
+            
         result = read_log_file(log_filename)
 
         if result is None:
@@ -55,6 +62,7 @@ def main():
 
         # Increase batch size (multiply by 2)
         batch_size *= 2
+    print()
 
 
 if __name__ == "__main__":

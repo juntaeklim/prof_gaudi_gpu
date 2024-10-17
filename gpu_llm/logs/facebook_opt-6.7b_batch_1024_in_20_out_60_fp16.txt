@@ -1,0 +1,18 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.62it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.14it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  5.05it/s]
+Batch size: 1024, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+Traceback (most recent call last):
+  File "/home/juntaek/prof_gaudi_gpu/gpu_llm/run_opt.py", line 133, in <module>
+    run()
+  File "/home/juntaek/prof_gaudi_gpu/gpu_llm/run_opt.py", line 83, in run
+    output_tokens = model.generate(
+                    ^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/generation/utils.py", line 2207, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "/home/juntaek/miniconda3/envs/gaudi/lib/python3.11/site-packages/transformers/generation/utils.py", line 3185, in _sample
+    next_token_logits = outputs.logits.clone()[:, -1, :].float()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 198.00 MiB. GPU 0 has a total capacity of 39.50 GiB of which 3.38 MiB is free. Including non-PyTorch memory, this process has 39.48 GiB memory in use. Of the allocated memory 38.29 GiB is allocated by PyTorch, and 710.13 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

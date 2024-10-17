@@ -138,6 +138,7 @@ def run():
         if bench_list[0] == "gather":
             if custom:
                 output_tensor = gather_v_i32_indices(input_tensor, index_tensor)
+                print(output_tensor)
             else:
                 output_tensor = input_tensor[index_tensor]
         elif bench_list[0] == "scatter":

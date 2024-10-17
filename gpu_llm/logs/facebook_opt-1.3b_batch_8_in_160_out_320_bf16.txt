@@ -1,0 +1,44 @@
+Batch size: 8, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript.
+
+The VIA research group is a small team of researchers, with a total of about 20 members. We are currently working on a number of projects, including:
+
+1. VIA-based AI system for the Internet of Things (IoT)
+
+2. VIA-based AI system for the Internet of Things (IoT)
+
+3. VIA-based AI system for the Internet of Things (IoT)
+
+4. VIA-based AI system for the Internet of Things (IoT)
+
+5. VIA-based AI system for the Internet of Things (IoT)
+
+6. VIA-based AI system for the Internet of Things (IoT)
+
+7. VIA-based AI system for the Internet of Things (IoT)
+
+8. VIA-based AI system for the Internet of Things (IoT)
+
+9. VIA-based AI system for the Internet of Things (IoT)
+
+10. VIA-based AI system for the Internet of Things (IoT)
+
+11. VIA-based AI system for the Internet of Things (IoT)
+
+12. VIA-based AI system for the Internet of Things (IoT)
+
+13. VIA-based AI system for the Internet of Things (IoT)
+
+14. VIA-based AI system for the Internet of Things (IoT)
+
+15. V
+
+Input length: 160 / output length: 480
+
+Iteration times
+[4.453452141024172, 4.308103087998461, 4.3183977720327675, 6.6440502959885634, 4.742141638009343, 4.198067517019808, 4.271942557010334, 4.18018236401258]
+
+Latency (msec), Throughput (token/sec)
+4807.276874, 532.526016

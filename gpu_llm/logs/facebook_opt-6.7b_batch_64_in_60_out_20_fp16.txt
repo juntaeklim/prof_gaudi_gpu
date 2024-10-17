@@ -1,0 +1,13 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  7.69it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  8.89it/s]
+Batch size: 64, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research on the design and fabrication of high-performance, low-power, and low-cost VIA
+
+Input length: 60 / output length: 80
+
+Iteration times
+[1.389725525979884, 0.8205111880088225, 0.8280226569622755, 0.8281160689657554, 0.8204291299916804, 0.8288233610219322, 0.8246423720265739, 0.8255243280436844]
+
+Latency (msec), Throughput (token/sec)
+825.507052, 1550.562163

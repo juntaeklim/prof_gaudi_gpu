@@ -17,6 +17,7 @@ def run():
     parser.add_argument("--warmup", type=int, default=3)
     parser.add_argument("--n-iterations", type=int, default=5)
     parser.add_argument("--breakdown", action="store_true", default=False)
+    parser.add_argument("--dtype", choices=["fp16", "fp32", "bf16"])
     args = parser.parse_args()
         
     model = args.model
@@ -26,11 +27,19 @@ def run():
     warmup = args.warmup
     n_iterations = args.n_iterations
     breakdown = args.breakdown
+    if args.dtype == "fp16":
+        dtype = torch.float16
+    elif args.dtype == "fp32":
+        dtype = torch.float32
+    elif args.dtype == "bf16":
+        dtype = torch.bfloat16
+    else:
+        assert False
     
     prompt = "Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future \"intelligent\" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript. I'm a Tenured Associate Professor at the School of Electrical Engineering, jointly affiliated with Department of Semiconductor System Engineering,  Graduate School of Artificial Intelligence (AI), and Graduate School of  AI Semiconductor at KAIST. I am was a Senior Research Scientist working at the architecture research group at NVIDIA. I had an opportunity to work on a number of exciting projects at NVIDIA that span several areas in computing, which include ASIC designs, computer system architecture, runtime systems, and application & workload characterization with an emphasis on deep neural networks (DNNs). Initially at NVIDIA, I worked on developing microarchitectural support for high-performance GPU cache replacement policies. More recently, I have been working in the domain of deep learning, trying to come up with neat architectural enhancements to the GPU hardware/software stack so that NVIDIA maintains its leadership in the areas of machine learning. For instance, I led the research and development of the virtualized DNN runtime system, a high-performance GPU memory virtualization solution for DNN training. I was also the technical lead on the architecture design, implementation, and evaluation of the sparse CNN accelerator, an ASIC developed by NVIDIA Research aiming towards achieving high energy-efficiency for DNN inference. In the past, I earned my Ph.D. degree from the University of Texas at Austin in 2014, under the guidance of professor Mattan Erez. I received my M.S. and B.E. degree from KAIST (Korea Advanced Institute of Science and Technology) and Sogang University, in 2009 and 2007, respectively."
     
     tokenizer = AutoTokenizer.from_pretrained(model)
-    model = AutoModelForCausalLM.from_pretrained(model, torch_dtype=torch.float32)
+    model = AutoModelForCausalLM.from_pretrained(model, torch_dtype=dtype)
     model = model.eval().to("cuda")
     
     # Adjust the input length

@@ -1,0 +1,24 @@
+Batch size: 4, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the School of Electrical Engineering, Department of Semiconductor System Engineering, Graduate School of Artificial Intelligence (AI), and Graduate School of AI Semiconductor at KAIST, South Korea. We conduct research in the domain of computer architecture with a vertically integrated approach. By co-optimizing VLSI technology, computer system architecture, and application & algorithms, our mission is to build a high-performance computing platform for future "intelligent" systems that are programmable, robust, reliable, secure, and energy-efficient. (Note) For students interested in undergraduate research internships or those who are applying to our research group for graduate studies, please send me an email with your latest CV and transcript.
+
+The research group is currently working on a project to develop a new architecture for the next generation of supercomputers. The project is called "Supercomputing Architecture for the Next Generation of Supercomputers" (SCAN). The project is a collaboration between the VIA research group and the University of California, Berkeley. The project is funded by the National Science Foundation (NSF) and the Department of Energy (DOE).
+
+The project is divided into three major parts:
+
+1. The architecture of the next generation of supercomputers.
+
+2. The architecture of the next generation of supercomputers.
+
+3. The architecture of the next generation of supercomputers.
+
+The architecture of the next generation of supercomputers is a key issue in the development of supercomputers. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key to the success of the supercomputing industry. The architecture of the next generation of supercomputers is the key
+
+Input length: 160 / output length: 480
+
+Iteration times
+[4.32325785595458, 4.072913745010737, 4.075115523999557, 4.07402609399287, 4.071720030973665, 4.12639351998223, 4.117484174028505, 4.09448137198342]
+
+Latency (msec), Throughput (token/sec)
+4096.821038, 312.437372

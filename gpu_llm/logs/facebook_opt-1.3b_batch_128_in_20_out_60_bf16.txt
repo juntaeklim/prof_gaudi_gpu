@@ -1,0 +1,12 @@
+Batch size: 128, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the University of California, Berkeley. The group is interested in the design and implementation of a new architecture for the Internet. The architecture is based on the concept of a "vertical" network, which is a network that is designed to be used by a single company or organization. The architecture is designed to
+
+Input length: 20 / output length: 80
+
+Iteration times
+[1.2822639480000362, 0.9975248629925773, 1.004325982008595, 0.9954044829937629, 0.9752009329968132, 0.9949458779883571, 0.9832315850071609, 0.9754339429782704]
+
+Latency (msec), Throughput (token/sec)
+984.843364, 7798.194391

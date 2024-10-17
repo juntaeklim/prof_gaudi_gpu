@@ -1,0 +1,14 @@
+Batch size: 1024, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the University of California, Berkeley. The research group is a research group of researchers who are interested in the development of VIA architecture. The research group is led by Professor David L. Hirsch, a professor of architecture at the University of California, Berkeley.
+
+The research group is led by Professor
+
+Input length: 20 / output length: 80
+
+Iteration times
+[1.1121636719908565, 0.9149502760265023, 0.9063811739906669, 0.9065389489987865, 0.9037771439761855, 0.9002221580012701, 0.9027602590504102, 0.9047970609972253]
+
+Latency (msec), Throughput (token/sec)
+903.619114, 67993.249627

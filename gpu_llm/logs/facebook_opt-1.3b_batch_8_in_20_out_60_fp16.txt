@@ -1,0 +1,12 @@
+Batch size: 8, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
+
+Results:
+Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the University of California, Berkeley. The group is interested in the design and implementation of a new architecture for the Internet of Things (IoT). The group is also interested in the design and implementation of a new architecture for the Internet of Things (IoT) that is scalable, secure, and
+
+Input length: 20 / output length: 80
+
+Iteration times
+[1.4499285659985617, 0.7289141069632024, 0.7249796649557538, 0.7215359869878739, 0.6917463449644856, 0.6896325179841369, 0.6919358909945004, 0.689079768024385]
+
+Latency (msec), Throughput (token/sec)
+696.786102, 688.877116
