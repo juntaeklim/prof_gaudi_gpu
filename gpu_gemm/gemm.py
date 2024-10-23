@@ -5,6 +5,10 @@ import vtrain_profiler as vp
 from custom_gather import gather_v_i32_indices
 from custom_scatter import scatter_v_i32_indices
 
+# @torch.compile
+# def mul(a, b):
+#     return torch.mm(a, b)
+
 def run():
     parser = argparse.ArgumentParser(description="Gather GPU test")
  
@@ -72,6 +76,7 @@ def run():
             assert False
         ########################################
 
+    # mm = torch.compile(torch.mm, fullgraph=True, dynamic=False)
     
     for i in range(n_warmup + n_iter):
         # Tensor preparation ###################
@@ -149,26 +154,52 @@ def run():
                 start_times.append(float(splitted_row[0]) / 1000)
                 durations.append(float(splitted_row[1]) / 1000)
         
-        assert len(start_times) == n_warmup + n_iter
-        assert len(durations) == n_warmup + n_iter
-        
-        result_0 = []
-        
-        for i in range(n_warmup + n_iter):
-            result_0.append(durations[i])
-        
-        print("result_0")
-        print(result_0)
+        if len(start_times) == (n_warmup + n_iter):
+            result_0 = []
+            
+            for i in range(n_warmup + n_iter):
+                result_0.append(durations[i])
+            
+            print("result_0")
+            print(result_0)
 
-        result_0_tensor = torch.tensor(result_0)
-        
-        final_time_0 = result_0_tensor[-n_iter:].mean()
+            result_0_tensor = torch.tensor(result_0)
+            
+            final_time_0 = result_0_tensor[-n_iter:].mean()
 
-        print()
-        tflops = 2*M*K*N/final_time_0/(10**6)
-        print("Performance: %f FLOPS, %f %%" %(tflops, tflops/max_flops*100))
-        print("M, K, N, kernel_duration (us)")
-        print("%d, %d, %d, %f" %(M, K, N, final_time_0)) 
+            print()
+            tflops = 2*M*K*N/final_time_0/(10**6)
+            print("Performance: %f FLOPS, %f %%" %(tflops, tflops/max_flops*100))
+            print("M, K, N, kernel_duration (us)")
+            print("%d, %d, %d, %f" %(M, K, N, final_time_0)) 
+        elif len(start_times) == 2 * (n_warmup + n_iter):
+            result_0 = []
+            result_1 = []
+            result_2 = []
+            
+            for i in range(n_warmup + n_iter):
+                result_0.append(durations[2*i+0])
+                result_1.append(start_times[2*i+1] - start_times[2*i+0] - durations[2*i+0])
+                result_2.append(durations[2*i+1])
+            
+            assert len(result_0) == len(result_1)
+            assert len(result_1) == len(result_2)
+            
+            result_0_tensor = torch.tensor(result_0)
+            result_1_tensor = torch.tensor(result_1)
+            result_2_tensor = torch.tensor(result_2)
+            
+            final_time_0 = result_0_tensor[-n_iter:].mean()
+            final_time_1 = result_1_tensor[-n_iter:].mean()
+            final_time_2 = result_2_tensor[-n_iter:].mean()
+            
+            print()
+            tflops = 2*M*K*N/(final_time_0 + final_time_1 + final_time_2)/(10**6)
+            print("Performance: %f FLOPS, %f %%" %(tflops, tflops/max_flops*100))
+            print("M, K, N, kernel_duration_0 (us), interval (us), kernel_duration_1 (us)")
+            print("%d, %d, %d, %f, %f, %f" %(M, K, N, final_time_0, final_time_1, final_time_2)) 
+        else:
+            assert False
     elif not test and method == "nsys":
         torch.cuda.cudart().cudaProfilerStop()
     ########################################

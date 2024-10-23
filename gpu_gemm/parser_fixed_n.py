@@ -60,8 +60,15 @@ def run():
             try:
                 results = f.readlines()[-1].split(",")
                 if method == "vtrain":
-                    assert len(results) == 4
-                    print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))
+                    if len(results) == 4:
+                        print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))
+                    elif len(results) == 6:
+                        kernel_0 = float(results[3])
+                        interval = float(results[4])
+                        kernel_1 = float(results[5])
+                        
+                        print("%d, %d, %d, %f, %f, %f, %f" %(int(results[0]), int(results[1]), int(results[2]), kernel_0 + interval + kernel_1, kernel_0, interval, kernel_1))
+                        
                 elif method == "time":
                     assert len(results) == 4
                     print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))

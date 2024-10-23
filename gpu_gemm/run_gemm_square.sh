@@ -42,10 +42,10 @@ do
 
 	output_file="./logs/${file_name}"
     echo $output_file
-	if [ -f "$output_file" ]; then
-        echo "File $output_file already exists. Skipping..."
-        continue
-    fi
+	# if [ -f "$output_file" ]; then
+    #     echo "File $output_file already exists. Skipping..."
+    #     continue
+    # fi
 
     echo "M, K, N: $variable, dtype: $dtype"
     cmd="python gemm.py --M ${variable} --K ${variable} --N ${variable} --dtype ${dtype} --method vtrain"
