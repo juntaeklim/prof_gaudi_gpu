@@ -34,7 +34,7 @@ def run():
             tmp = tmp * stride
         assert tmp / stride == end
 
-    log_path = "./logs"
+    log_path = "./logs_from_naver"
 
     try:
         file_list = os.listdir(log_path)
@@ -44,7 +44,7 @@ def run():
 
     variables = values
 
-    print("Result of GEMV-style GEMM for %s" %(method))
+    # print("Result of GEMV-style GEMM for %s" %(method))
     print()
     if method == "vtrain":
         print("M, K, N, time (us)")

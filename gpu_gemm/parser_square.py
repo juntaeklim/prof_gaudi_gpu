@@ -11,6 +11,7 @@ def run():
     parser.add_argument("--stride", type=int)
     parser.add_argument("--method", type=str, choices=["time", "vtrain", "nsys", "ncomp"])
     parser.add_argument("--dtype", type=str, choices=["fp16", "fp32", "bf16", "tf32"])
+    # parser.add_argument("--log-path", type=str, default="./logs")
     args = parser.parse_args()
 
     pattern = args.type
@@ -31,7 +32,7 @@ def run():
             tmp = tmp * stride
         assert tmp / stride == end
 
-    log_path = "./logs"
+    log_path = "./logs_from_naver"
 
     try:
         file_list = os.listdir(log_path)
@@ -41,7 +42,7 @@ def run():
 
     variables = values
 
-    print("Result of square GEMM for %s" %(method))
+    # print("Result of square GEMM for %s" %(method))
     print()
     if method == "vtrain":
         print("M, K, N, time (us)")
@@ -56,8 +57,15 @@ def run():
         with open(file_name, "r") as f:
             results = f.readlines()[-1].split(",")
             if method == "vtrain":
-                assert len(results) == 4
-                print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))
+                if len(results) == 4:
+                    print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))
+                elif len(results) == 6:
+                    kernel_0 = float(results[3])
+                    interval = float(results[4])
+                    kernel_1 = float(results[5])
+                    
+                    print("%d, %d, %d, %f, %f, %f, %f" %(int(results[0]), int(results[1]), int(results[2]), kernel_0 + interval + kernel_1, kernel_0, interval, kernel_1))
+                
             elif method == "time":
                 assert len(results) == 4
                 print("%d, %d, %d, %f" %(int(results[0]), int(results[1]), int(results[2]), float(results[3])))
