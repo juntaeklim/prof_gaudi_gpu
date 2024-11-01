@@ -1,6 +1,6 @@
 import os
 
-def delete_empty_txt_files(directory="./logs"):
+def delete_empty_txt_files(directory="./clean_logs_2"):
     # Check if the directory exists
     if not os.path.exists(directory):
         print(f"Directory '{directory}' does not exist.")

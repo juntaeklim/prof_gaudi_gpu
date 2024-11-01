@@ -1,0 +1,4 @@
+
+Performance: 0.945758 FLOPS, 4.850043 %
+M, K, N, kernel_duration_0 (us), interval (us), kernel_duration_1 (us)
+16384, 16384, 2, 1123.080566, 2.752000, 9.491199

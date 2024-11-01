@@ -1,0 +1,7 @@
+python3 convert_checkpoint.py --model_dir ~/prof_gaudi_gpu/gpu_llm/models--facebook--opt-6.7b/snapshots/a45aa65bbeb77c1558bc99bedc6779195462dab0/  --output_dir ~/prof_gaudi_gpu/gpu_llm/opt/6.7B/trt_ckpt/bf16/1-gpu/ --dtype bfloat16 --tp_size 1 
+
+trtllm-build --checkpoint_dir ./opt/6.7B/trt_ckpt/bf16/1-gpu/ --output_dir ~/prof_gaudi_gpu/gpu_llm/opt/6.7B/trt_engines/bf16/1-gpu/ --gemm_plugin auto --kv_cache_type continuous --max_input_len 760 --max_batch_size 128 --max_seq_len 956 --max_num_tokens 96768
+
+python convert_checkpoint.py --model_dir ./llama-3.1-8b-instruct/models--meta-llama--Llama-3.1-8B-Instruct/snapshots/0e9e39f249a16976918f6564b8830bc894c89659/ --output_dir ~/prof_gaudi_gpu/gpu_llm/llama/8B/trt_ckpt/bf16/1-gpu/ --dtype float16 --tp_size 1
+
+trtllm-build --checkpoint_dir ./tllm_checkpoint_1gpu_tp1/ --output_dir ~/prof_gaudi_gpu/gpu_llm/llama/8B/trt_engines/bf16/1-gpu/ --gemm_plugin auto --kv_cache_type continuous --max_input_len 760 --max_batch_size 128 --max_seq_len 956 --max_num_tokens 96768

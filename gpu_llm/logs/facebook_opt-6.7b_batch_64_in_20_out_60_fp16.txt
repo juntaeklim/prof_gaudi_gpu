@@ -1,13 +1,0 @@
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  7.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.98it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.81it/s]
-Batch size: 64, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
-
-Results:
-Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the Department of Computer Science and Engineering at the University of California, Berkeley. The group is interested in the design and implementation of high-performance, low-power, and energy-efficient computer architectures. The group is also interested in the design and implementation of high-performance, low-power, and energy
-
-Input length: 20 / output length: 80
-
-Iteration times
-[2.3912142110057175, 1.5398026159964502, 1.5422731999424286, 1.5410190299735405, 1.5522190239862539, 1.550743093015626, 1.5448443290079013, 1.546168670989573]
-
-Latency (msec), Throughput (token/sec)
-1546.998829, 2482.225537

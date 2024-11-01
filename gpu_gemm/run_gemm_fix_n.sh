@@ -41,7 +41,7 @@ for variable in "${variables[@]}"
 do
     file_name="gemm_${method}_m_${variable}_k_${variable}_n_${fixed_size}_dtype_${dtype}.txt"
 
-	output_file="./logs/${file_name}"
+	output_file="./clean_logs_2/${file_name}"
     echo $output_file
 	if [ -f "$output_file" ]; then
         echo "File $output_file already exists. Skipping..."

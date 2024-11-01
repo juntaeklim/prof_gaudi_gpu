@@ -1,10 +1,0 @@
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.19s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.35it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.24it/s]
-Batch size: 1, input: Here is my prompt: Vertically Integrated Architecture (VIA) research group is affiliated with the
-
-Input length: 20 / output length: 80
-
-Iteration times
-[2.061096853984054, 1.383423607039731, 1.3827182429959066, 1.383369955001399, 1.3836204760009423, 1.383183703001123, 1.3851710709859617, 1.3845197049668059]
-
-Latency (msec), Throughput (token/sec)
-1383.972982, 43.353447

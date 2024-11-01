@@ -1,3 +1,9 @@
-/gpu_stream/logs
-/gpu_gather_scatter/logs
-/gpu_gather_scatter/index_tensors
+gpu_stream/logs
+gpu_gather_scatter/logs
+gpu_gather_scatter/index_tensors
+gpu_llm/opt
+gpu_llm/logs
+gpu_llm/engine_outputs
+gpu_llm/tmp
+gpu_llm/TensorRT-LLM
+gpu_llm/llama
