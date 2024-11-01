@@ -44,7 +44,7 @@ def run():
     elif args.model == "facebook/opt-66b" and args.n_gpus == 8:
         engine_dir = "opt/66B/trt_engines/bf16/8-gpu/"
     elif args.model == "meta-llama/Llama-3.1-8B-Instruct" and args.n_gpus == 1:
-        engine_dir = "llama/8B/trt_engines/bf16/1-gpu/"
+        engine_dir = "llama/8B/trt_engines/bf16/1-gpu_no_maxnumtokens/"
     elif args.model == "meta-llama/Llama-3.1-70B-Instruct" and args.n_gpus == 2:
         engine_dir = "llama/70B/trt_engines/bf16/2-gpu/"
     elif args.model == "meta-llama/Llama-3.1-70B-Instruct" and args.n_gpus == 4:
@@ -63,8 +63,9 @@ def run():
     runner = runner_cls.from_dir(**runner_kwargs)
     
     # Inference configurations related to inputs
-    batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128]
-    input_output_lengths = [(19, 58), (756, 200)]
+    # batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128]
+    batch_sizes = [128]
+    input_output_lengths = [(19, 58)]
     # input_output_lengths = [(161, 388), (19, 58), (756, 200)]
     
     # Lists for results
@@ -80,6 +81,7 @@ def run():
         model_name = splitted_model_name[-2]
     else:
         model_name = splitted_model_name[-1]
+        
     
     for input_length, output_length in input_output_lengths:
         # Prepare the input tokens
@@ -107,6 +109,9 @@ def run():
                 for iter in range(warmup + n_iterations):
                     torch.cuda.synchronize()
                     start = time.perf_counter()
+                    
+                    if iter == warmup + n_iterations - 1:
+                        torch.cuda.cudart().cudaProfilerStart()
                 
                     # Prepare the input tokens for TensorRT
                     input_tokens = tokenizer.batch_encode_plus(batched_prompt, return_tensors="pt", padding=False)
@@ -127,6 +132,9 @@ def run():
                     ).cpu()
                     output_sentences = tokenizer.batch_decode(output_tokens.squeeze(), skip_special_tokens=True)
                     
+                    if iter == warmup + n_iterations - 1:
+                        torch.cuda.cudart().cudaProfilerStop()
+                        
                     torch.cuda.synchronize()
                     end = time.perf_counter()
                     
@@ -183,6 +191,8 @@ def run():
     for i in range(len(batch_list)):
         f.write("%d, %d, %d, %f, %f\n" %(input_length_list[i], output_length_list[i], batch_list[i], latency_list[i], throughput_list[i]))
     f.close()
+    
+    
     
 if __name__ == "__main__":
     run()
