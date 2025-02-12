@@ -18,16 +18,21 @@ import multiprocessing
 
 def get_gpu_power():
     result = subprocess.run(
-        ["nvidia-smi", "--query-gpu=index,utilization.gpu,power.draw", "--format=csv,noheader,nounits"],
+        ["nvidia-smi", "--query-gpu=power.draw", "--format=csv,noheader,nounits"],
         capture_output=True,
         text=True
     )
     if result.returncode == 0:
         try:
-            return result.stdout
+            # sinlge GPU node
+            power_draw = float(result.stdout.strip())
+            return power_draw
+            
+            # multi GPU node
+            
         except ValueError:
             pass
-    return ""
+    return 0.0
 
 def monitor_power(interval, power_measurements, stop_event):
     while not stop_event.is_set():
@@ -105,7 +110,7 @@ def run():
     batch_list = []
     power_list = []
     
-    # Derive the name of model
+    # Derive tje name of model
     splitted_model_name = args.model.split("/")
     if splitted_model_name[-1] == "":
         model_name = splitted_model_name[-2]
@@ -127,7 +132,6 @@ def run():
             log_path = "./logs/%s_I_%d_O_%d_B_%d_%dgpus.txt" %(model_name, input_length, output_length, batch_size, args.n_gpus)
             
             print("Experiment for %s" %log_path)
-            
             f = open(log_path, 'w')
             
             # Make batched prompt
@@ -136,52 +140,63 @@ def run():
                 batched_prompt.append(final_prompt)
                 
             iteration_times = []
-            
-            if power:
-                power_measurements = []
-                stop_event = threading.Event()
-                power_thread = threading.Thread(target=monitor_power, args=(0.001, power_measurements, stop_event))
-                power_thread.start()
+            power_iters =[]
             try:
-                start_time = time.perf_counter()
-                while (power == True) and time.perf_counter() - start_time < 6:
-                    for iter in range(warmup + n_iterations):
-                        torch.cuda.synchronize()
-                        start = time.perf_counter()
+                for iter in range(warmup + n_iterations):
+                    if power:
+                        power_measurements = []
+                        # stop_event = threading.Event()
+                        stop_event = multiprocessing.Event()
+                        # power_thread = threading.Thread(target=monitor_power, args=(0.01, power_measurements, stop_event))
+                        power_process = multiprocessing.Process(target=monitor_power, args=(0.001, power_measurements, stop_event))
                         
-                        if iter == warmup + n_iterations - 2:
-                            torch.cuda.cudart().cudaProfilerStart()
+                    torch.cuda.synchronize()
+                    start = time.perf_counter()
+                    if iter == warmup + n_iterations - 2:
+                        torch.cuda.cudart().cudaProfilerStart()
+                
+                    # Prepare the input tokens for TensorRT
+                    input_tokens = tokenizer.batch_encode_plus(batched_prompt, return_tensors="pt", padding=False)
+                    assert len(input_tokens["input_ids"]) == batch_size
+                    assert len(input_tokens["input_ids"][0]) == input_length
+                    for key in input_tokens:
+                        if torch.is_tensor(input_tokens[key]):
+                            input_tokens[key] = input_tokens[key].to("cuda")
                     
-                        # Prepare the input tokens for TensorRT
-                        input_tokens = tokenizer.batch_encode_plus(batched_prompt, return_tensors="pt", padding=False)
-                        assert len(input_tokens["input_ids"]) == batch_size
-                        assert len(input_tokens["input_ids"][0]) == input_length
+                    if power:
+                        # power_thread.start()
+                        power_process.start()
                         
-                        for key in input_tokens:
-                            if torch.is_tensor(input_tokens[key]):
-                                input_tokens[key] = input_tokens[key].to("cuda")
-                        
-                        # Run inference using the TensorRT model runner
-                        output_tokens = runner.generate(
-                            batch_input_ids=input_tokens["input_ids"],
-                            max_new_tokens=output_length,
-                            end_id=-1,  # Set as per your requirement
-                            temperature=1.0,  # Modify as needed
-                            pad_id=-1,
-                            do_sample=False,
-                            # Add other parameters for the generation
-                        ).cpu()
-                        
-                        output_sentences = tokenizer.batch_decode(output_tokens.squeeze(), skip_special_tokens=True)
+                    # Run inference using the TensorRT model runner
+                    output_tokens = runner.generate(
+                        batch_input_ids=input_tokens["input_ids"],
+                        max_new_tokens=output_length,
+                        end_id=-1,  # Set as per your requirement
+                        temperature=1.0,  # Modify as needed
+                        pad_id=-1,
+                        do_sample=False,
+                        # Add other parameters for the generation
+                    ).cpu()
+                    output_sentences = tokenizer.batch_decode(output_tokens.squeeze(), skip_special_tokens=True)
 
-                        torch.cuda.synchronize()
-                        end = time.perf_counter()
+                    if power:
+                        stop_event.set()
                         
-                        if iter == warmup + n_iterations - 1:
-                            torch.cuda.cudart().cudaProfilerStop()
-                            
-                        iteration_times.append(end - start)
+                    torch.cuda.synchronize()
+                    end = time.perf_counter()
+                    
+                    if iter == warmup + n_iterations - 1:
+                        torch.cuda.cudart().cudaProfilerStop()
                         
+                    iteration_times.append(end - start)
+                    
+                    if power:
+                        # power_thread.join()
+                        power_process.join()
+                        power_iters.append(sum(power_measurements)/len(power_measurements))
+                        print("hello")
+                        print(power_measurements)
+                        print(len(power_measurements))
                     
             except Exception as error:
                 print(error)
@@ -195,19 +210,18 @@ def run():
                 input_length_list.append(input_length)
                 output_length_list.append(output_length)
                 batch_list.append(batch_size)
+                power_iters.append(0)
                 if power:
-                    power_list.append([0])
-                    stop_event.set()
-                    power_thread.join()
+                        stop_event.set()
                 continue
             
-            if power:
-                stop_event.set()
-                power_thread.join()
-                
             duration = sum(iteration_times[-n_iterations:])/n_iterations
             total_new_tokens_generated = batch_size * output_length
             throughput = total_new_tokens_generated / duration
+            
+            print(iteration_times)
+            if power:
+                print(power_iters)
             
             f.write("Results:\n")
             f.write(output_sentences[0])
@@ -216,40 +230,12 @@ def run():
             f.write("Iteration itmes: ")
             for i in range(len(iteration_times)):
                 f.write("%f, " %iteration_times[i])
-            
-            if power:
-                tensor_data = []
-                for measurement in power_measurements:
-                    rows = measurement.strip().split("\n")
-                    parsed_rows = [list(map(float, row.split(","))) for row in rows]
-                    tensor_data.append(parsed_rows)
-
-                result_tensor = torch.tensor(tensor_data)
-                sum_util = result_tensor[:, :, 1].sum(dim=0)
-                final_power = []
-                for i in range(sum_util.shape[0]):
-                    if sum_util[i].item() != 0:
-                        final_power.append(result_tensor[:, i, 2].mean().item())
-            
-                assert len(final_power) == args.n_gpus
-                        
+            f.write("Power: ")
+            for i in range(len(power_iters)):
+                f.write("%f, " %power_iters[i])
             f.write("\n\n")
-            if not power:
-                f.write("Latency (msec), Throughput (tokens/sec)\n")
-                f.write("%f, %f" %(duration * 1000, throughput))
-            else:
-                label = "Latency (msec), Throughput (tokens/sec), "
-                value =  "%f, %f, " %(duration * 1000, throughput)
-                for i in range(len(final_power)):
-                    label = label + "Power %d" %i
-                    value = value + "%f" %final_power[i]
-                    if i == len(final_power) - 1:
-                        label = label + "\n"
-                    else:
-                        label = label + ", "
-                        value = value + ", "
-                f.write(label)
-                f.write(value)
+            f.write("Latency (msec), Throughput (tokens/sec)\n")
+            f.write("%f, %f" %(duration * 1000, throughput))
             f.close()
             
             latency_list.append(duration * 1000) # msec
@@ -257,8 +243,8 @@ def run():
             input_length_list.append(input_length)
             output_length_list.append(output_length)
             batch_list.append(batch_size)
-            if power:
-                power_list.append(final_power)
+            power_list.append(sum(power_iters[-n_iterations:])/n_iterations)
+            
             for i in output_tokens:
                 assert i.shape[1] == output_length + input_length
                 
@@ -268,33 +254,12 @@ def run():
     assert len(output_length_list) == len(input_output_lengths) * len(batch_sizes)
     assert len(batch_list) == len(input_output_lengths) * len(batch_sizes)
     assert len(power_list) == len(input_output_lengths) * len(batch_sizes)
-    
     final_path = "./logs/final_results_%s_%dgpus.txt" %(model_name, args.n_gpus)
     
     f = open(final_path, 'w')
-    if not power:
-        f.write("Input_len, output_len, batch_size, latency (msec), throughput (token/sec)\n")
-        for i in range(len(batch_list)):
-            f.write("%d, %d, %d, %f, %f\n" %(input_length_list[i], output_length_list[i], batch_list[i], latency_list[i], throughput_list[i]))
-    else:
-        label = "Input_len, output_len, batch_size, latency (msec), throughput (token/sec), "
-        for i in range(args.n_gpus):
-            label = label + "Power %d" %i
-            if i == args.n_gpus - 1:
-                label = label + "\n"
-            else:
-                label = label + ", "
-        f.write(label)
-                
-        for i in range(len(batch_list)):
-            value =  "%d, %d, %d, %f, %f, " %(input_length_list[i], output_length_list[i], batch_list[i], latency_list[i], throughput_list[i])
-            for j in range(len(power_list[i])):
-                value = value + "%f" %power_list[i][j]
-                if j != len(power_list[i]) - 1:
-                    value = value + ", "
-            value = value + "\n"
-            f.write(value)
-        
+    f.write("Input_len, output_len, batch_size, latency (msec), throughput (token/sec), power (W)\n")
+    for i in range(len(batch_list)):
+        f.write("%d, %d, %d, %f, %f, %f\n" %(input_length_list[i], output_length_list[i], batch_list[i], latency_list[i], throughput_list[i], power_list[i]))
     f.close()
     
     
